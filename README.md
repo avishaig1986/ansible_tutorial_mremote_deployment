@@ -1,5 +1,5 @@
 # ansible_tutorial_mremote_deployment
-Ansible tutorial that contains mRemote installation on windows machine
+Ansible tutorial which installs mRemote on windows machine
 
 Execution commands:
 ansible-playbook install_mremote.yml -i environments/hosts
