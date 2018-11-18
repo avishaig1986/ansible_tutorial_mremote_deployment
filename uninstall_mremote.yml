@@ -1,0 +1,10 @@
+---
+
+- hosts: mremote
+  
+  vars_files:
+   - roles/uninstall_mremote/defaults/main.yml
+
+  roles:
+   - win_ping
+   - uninstall_mremote

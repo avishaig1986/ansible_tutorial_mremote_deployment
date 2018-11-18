@@ -1,0 +1,5 @@
+---
+
+- name: Pinging to windows
+  win_ping: 
+  # https://docs.ansible.com/ansible/2.5/modules/win_ping_module.html

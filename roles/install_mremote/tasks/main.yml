@@ -1,0 +1,33 @@
+---
+
+- name: Display all variables/facts known for a host
+  debug:
+    msg: "mremote version: {{ application_version }}"
+
+- name: Copy MSI file to windows machine
+  win_copy:
+    src: /tmp/mRemoteNG-Installer-{{ application_version }}.msi
+    dest: C:\Temp\
+    # https://docs.ansible.com/ansible/latest/modules/win_copy_module.html
+
+- name: Install MSI quietly on windows machine and print log in verbose mode
+  win_package:
+    path: C:\Temp\mRemoteNG-Installer-{{ application_version }}.msi
+    arguments: '/quiet /l*v c:\Temp\mremote_intallation_log.txt'
+    state: present
+    expected_return_code: [0]
+    # https://docs.ansible.com/ansible/2.5/modules/win_package_module.html
+
+- name: Copy print version powershell script 
+  win_copy:
+    src: 'library/printVersionFile.ps1'
+    dest: 'C:\temp\printVersionFile.ps1'
+
+- name: Run remote PowerShell Script
+  win_command: 'powershell.exe -ExecutionPolicy ByPass -File C:\temp\printVersionFile.ps1 {{ application_name }} {{ application_version }}'
+
+- name: Delete powershell version script
+  win_file:
+    path: 'C:\temp\printVersionFile.ps1'
+    state: absent
+    # https://docs.ansible.com/ansible/latest/modules/win_file_module.html

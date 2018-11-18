@@ -1,0 +1,10 @@
+---
+
+- hosts: mremote
+
+  vars_files:
+   - roles/install_mremote/defaults/main.yml
+
+  roles:
+   - win_ping
+   - install_mremote

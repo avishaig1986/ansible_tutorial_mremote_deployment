@@ -1,0 +1,26 @@
+---
+
+- name: Check if installation file exists
+  win_stat: 
+    path: 'C:\Temp\mRemoteNG-Installer-1.76.11.40527.msi'  
+  register: stat_file
+  # https://docs.ansible.com/ansible/2.5/modules/stat_module.html
+
+- name: Copy MSI file to windows machine
+  win_copy:
+    src: /tmp/mRemoteNG-Installer-1.76.11.40527.msi
+    dest: C:\Temp\
+  when: stat_file.stat.exists == False
+  # https://docs.ansible.com/ansible/latest/modules/win_copy_module.html
+
+- name: Uninstall MSI package
+  win_package:
+    path: C:\Temp\mRemoteNG-Installer-1.76.11.40527.msi
+    arguments: '/quiet /l*v c:\Temp\mremote_unintallation_log.txt'
+    state: absent
+
+- name: Delete installation file
+  win_file:
+    path: C:\Temp\mRemoteNG-Installer-1.76.11.40527.msi
+    state: absent
+    # https://docs.ansible.com/ansible/latest/modules/win_file_module.html
